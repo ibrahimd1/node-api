@@ -1,3 +1,5 @@
-# node-api
-Node-API
-Read Me
+# node JS ile Movie API
+
+# Movie
+
+| Route | HTTP Verb
