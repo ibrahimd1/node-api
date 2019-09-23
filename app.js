@@ -11,7 +11,8 @@ const director = require("./routes/director");
 var app = express();
 
 //db connections
-const db = require("./helper/db.js")();
+const db = require("./helper/db.js");
+db();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
