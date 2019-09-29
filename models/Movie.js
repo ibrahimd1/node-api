@@ -3,7 +3,12 @@ const Schema = mongoose.Schema;
 
 const movie = {
   director_Id: Schema.Types.ObjectId,
-  title: { type: String, requried: true },
+  title: {
+    type: String,
+    required: [true, "`{PATH}` alanı zorunludur"],
+    maxlength: 10,
+    minlength: 3
+  },
   category: String,
   country: String,
   year: Number,

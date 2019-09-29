@@ -12,7 +12,11 @@ var app = express();
 
 //db connections
 const db = require("./helper/db.js");
+const config = require("./config");
 db();
+
+//Config
+app.set("api_secret_key", config.api_secret_key);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
