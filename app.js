@@ -18,6 +18,9 @@ db();
 //Config
 app.set("api_secret_key", config.api_secret_key);
 
+//middleware
+const verifyToken = require("./middleware/verify-token.js");
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
@@ -29,6 +32,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+app.use("/api", verifyToken);
 app.use("/api/movie", movie);
 app.use("/api/director", director);
 
