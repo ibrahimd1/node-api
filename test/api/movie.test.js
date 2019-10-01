@@ -5,7 +5,7 @@ const server = require("../../app.js");
 
 chai.use(chaiHttp);
 
-let token;
+let token, movieId;
 
 describe("/api/movies tests", () => {
   before(done => {
@@ -19,7 +19,7 @@ describe("/api/movies tests", () => {
       });
   });
 
-  describe("/GET/movies", () => {
+  describe("/GET movies", () => {
     it("it should GET all the movies", done => {
       chai
         .request(server)
@@ -27,10 +27,40 @@ describe("/api/movies tests", () => {
         .set("x-access-token", token)
         .end((err, res) => {
           res.should.have.status(200);
-          res.should.be.a("array");
+          res.body.should.be.a("array");
           done();
         });
-      done();
+    });
+  });
+
+  describe("/POST movie", () => {
+    it("it should POST a movie", done => {
+      const movie = {
+        title: "Udemy",
+        director_Id: "5d8922dc43bfcc3768bef804",
+        category: "Komedi",
+        country: "Turkey",
+        year: 2000,
+        imdb_score: 7
+      };
+
+      chai
+        .request(server)
+        .post("/api/movie")
+        .send(movie)
+        .set("x-access-token", token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          // res.body.should.be.a("object");
+          res.body.should.have.property("title");
+          res.body.should.have.property("director_Id");
+          res.body.should.have.property("category");
+          res.body.should.have.property("country");
+          res.body.should.have.property("year");
+          res.body.should.have.property("imdb_score");
+          res.body.should.have.property("date");
+          done();
+        });
     });
   });
 });
