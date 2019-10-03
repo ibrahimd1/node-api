@@ -51,7 +51,7 @@ describe("/api/movies tests", () => {
         .set("x-access-token", token)
         .end((err, res) => {
           res.should.have.status(200);
-          // res.body.should.be.a("object");
+          res.body.should.be.a("object");
           res.body.should.have.property("title");
           res.body.should.have.property("director_Id");
           res.body.should.have.property("category");
@@ -59,7 +59,35 @@ describe("/api/movies tests", () => {
           res.body.should.have.property("year");
           res.body.should.have.property("imdb_score");
           res.body.should.have.property("date");
+          movieId = res.body._id;
           done();
+        });
+    });
+  });
+
+  describe("/GET/:director_id movie", () => {
+    it("it should get a movie by the given id", done => {
+      console.log(movieId);
+      chai
+        .request(server)
+        .get("/api/movie/" + movieId)
+        .set("x-access-token", token)
+        .end((err, res) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.should.have.status(200);
+            res.body.should.be.a("array");
+            res.body[0].should.have.property("title");
+            res.body[0].should.have.property("director_Id");
+            res.body[0].should.have.property("category");
+            res.body[0].should.have.property("country");
+            res.body[0].should.have.property("year");
+            res.body[0].should.have.property("imdb_score");
+            res.body[0].should.have.property("date");
+            res.body[0].should.have.property("_id").eql(movieId);
+            done();
+          }
         });
     });
   });
