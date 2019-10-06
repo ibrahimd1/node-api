@@ -91,4 +91,47 @@ describe("/api/movies tests", () => {
         });
     });
   });
+
+  describe("/PUT movie", () => {
+    it("it should PUT a movie", done => {
+      const movie = {
+        title: "Merhaba Dünya",
+        director_Id: "5d8913b62d32a200e84b1d86",
+        category: "Komedi",
+        country: "Netherland",
+        year: 2019,
+        imdb_score: 6
+      };
+
+      chai
+        .request(server)
+        .put("/api/movie/" + movieId)
+        .send(movie)
+        .set("x-access-token", token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          console.log(res.body);
+          res.body.should.be.a("object");
+          res.body.should.have.property("statusCode").eql(1);
+          res.body.should.have.property("message").eql("Success!");
+          done();
+        });
+    });
+  });
+
+  describe("/DELETE movie", () => {
+    it("it should delete a movie", done => {
+      chai
+        .request(server)
+        .delete("/api/movie/" + movieId)
+        .set("x-access-token", token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a("object");
+          res.body.should.have.property("statusCode").eql(1);
+          res.body.should.have.property("message");
+          done();
+        });
+    });
+  });
 });
